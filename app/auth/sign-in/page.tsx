@@ -21,7 +21,7 @@ export default function SignIn() {
       <Card className="w-full max-w-sm rounded-2xl shadow-xl border border-gray-200 bg-white">
         <CardHeader className="text-center space-y-2">
           <CardTitle className="text-2xl font-bold text-gray-800">
-            Welcome back
+            Welcome
           </CardTitle>
           <CardDescription className="text-gray-500">
             Login with your GitHub account
