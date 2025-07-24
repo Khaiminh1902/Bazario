@@ -55,6 +55,21 @@ export default function SellPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const { name, description, price, location, image } = form;
+
+    // Validate all fields (simple check)
+    if (
+      !name.trim() ||
+      !description.trim() ||
+      !price.trim() ||
+      !location.trim() ||
+      !image.trim()
+    ) {
+      alert("Please fill in all fields and upload an image before submitting.");
+      return;
+    }
+
     await createListing(form);
     setForm({ name: "", description: "", price: "", location: "", image: "" });
     setSuccess(true);
@@ -80,12 +95,17 @@ export default function SellPage() {
             required
           />
 
-          <input
+          <textarea
             name="description"
-            placeholder="Describe your item"
+            placeholder="Describe the item"
             value={form.description}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
+            onChange={(e) =>
+              setForm({
+                ...form,
+                description: e.target.value,
+              })
+            }
+            className="w-full p-2 border rounded resize-y min-h-[80px]"
             required
           />
 
@@ -146,11 +166,23 @@ export default function SellPage() {
 
           <button
             type="submit"
-            disabled={uploading}
-            className={`cursor-pointer w-full py-2 rounded transition ${
-              uploading
+            disabled={
+              uploading ||
+              !form.name.trim() ||
+              !form.description.trim() ||
+              !form.price.trim() ||
+              !form.location.trim() ||
+              !form.image.trim()
+            }
+            className={`w-full py-2 rounded transition ${
+              uploading ||
+              !form.name.trim() ||
+              !form.description.trim() ||
+              !form.price.trim() ||
+              !form.location.trim() ||
+              !form.image.trim()
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                : "bg-[#5c3b27] text-white hover:bg-[#4b2f20]"
+                : "bg-[#5c3b27] text-white hover:bg-[#4b2f20] cursor-pointer"
             }`}
           >
             {uploading ? "Uploading Image..." : "Submit Listing"}

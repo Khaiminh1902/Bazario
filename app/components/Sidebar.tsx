@@ -1,13 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingCart, DollarSign } from "lucide-react";
+import { ShoppingCart, DollarSign, MessageCircle } from "lucide-react";
 import { useConvexAuth } from "convex/react";
 import UserDetails from "./user-details"; // Client-friendly version expected
 
 const navItems = [
   { icon: <ShoppingCart size={24} />, label: "Buy", href: "/" },
   { icon: <DollarSign size={24} />, label: "Sell", href: "/sell" },
+  { icon: <MessageCircle size={24} />, label: "Message", href: "/message" },
 ];
 
 export default function Navbar() {

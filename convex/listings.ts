@@ -27,3 +27,35 @@ export const getListings = query({
     return await ctx.db.query("listings").collect();
   },
 });
+
+// listings.ts
+
+export const deleteListing = mutation({
+  args: { id: v.id("listings") },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Not authenticated");
+
+    const listing = await ctx.db.get(args.id);
+    if (!listing) throw new Error("Listing not found");
+
+    if (listing.userId !== identity.subject) {
+      throw new Error("You can only delete your own listings");
+    }
+
+    await ctx.db.delete(args.id);
+  },
+});
+
+export const getUserListings = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) return [];
+
+    return await ctx.db
+      .query("listings")
+      .filter((q) => q.eq(q.field("userId"), identity.subject))
+      .order("desc")
+      .collect();
+  },
+});
