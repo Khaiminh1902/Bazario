@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, DollarSign, MessageCircle } from "lucide-react";
 import { useConvexAuth } from "convex/react";
-import UserDetails from "./user-details"; // Client-friendly version expected
+import UserDetails from "./user-details";
 
 const navItems = [
   { icon: <ShoppingCart size={24} />, label: "Buy", href: "/" },
@@ -18,7 +18,6 @@ export default function Navbar() {
 
   return (
     <aside className="fixed inset-y-0 left-0 w-20 bg-[var(--kindly-medium)] p-4 flex flex-col justify-between items-center py-6 shadow-md">
-      {/* Top nav items */}
       <div className="flex flex-col gap-6">
         {navItems.map((item) => {
           const isActive =

@@ -1,5 +1,3 @@
-// BuyPage.tsx
-
 "use client";
 
 import React, { useState } from "react";
@@ -28,7 +26,7 @@ export default function BuyPage() {
       </h1>
 
       <button
-        className="mb-6 px-4 py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#40281a]"
+        className="mb-6 px-4 py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#40281a] cursor-pointer"
         onClick={() => setShowOnlyMine((prev) => !prev)}
       >
         {showOnlyMine ? "Show All Listings" : "Show My Listings"}

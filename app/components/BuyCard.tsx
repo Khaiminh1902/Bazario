@@ -30,12 +30,11 @@ export default function BuyCard({
 
   return (
     <>
-      {/* Card */}
       <div
         className="bg-white w-72 rounded-xl shadow-md p-4 hover:shadow-lg transition-all relative cursor-pointer"
         onClick={() => setShowDetailsModal(true)}
       >
-        <div className="relative w-full h-40 mb-4">
+        <div className="relative w-full h-50 mb-4">
           <Image
             src={image || "https://via.placeholder.com/150"}
             alt={name}
@@ -93,7 +92,6 @@ export default function BuyCard({
         </div>
       )}
 
-      {/* Full Details Modal */}
       {showDetailsModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
           <div className="bg-white rounded-xl shadow-lg max-w-md w-full p-6 relative">
@@ -104,7 +102,7 @@ export default function BuyCard({
               <X className="w-5 h-5 cursor-pointer" />
             </button>
 
-            <div className="relative w-full h-72 mb-4">
+            <div className="relative w-full h-82 mb-4">
               <Image
                 src={image || "https://via.placeholder.com/300"}
                 alt={name}
@@ -124,15 +122,17 @@ export default function BuyCard({
               <strong>Price:</strong> ${price}
             </p>
 
-            <button
-              onClick={() => {
-                setShowDetailsModal(false);
-                onContact?.();
-              }}
-              className="w-full py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#3f2a1b] transition"
-            >
-              Contact Seller
-            </button>
+            {!isOwner && (
+              <button
+                onClick={() => {
+                  setShowDetailsModal(false);
+                  onContact?.();
+                }}
+                className="cursor-pointer w-full py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#3f2a1b] transition"
+              >
+                Contact Seller
+              </button>
+            )}
           </div>
         </div>
       )}
