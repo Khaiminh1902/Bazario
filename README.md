@@ -9,8 +9,6 @@ Welcome to **Kindly** — a laid-back, location-aware marketplace where you can 
 
 - Post items for sale with a name, description, image, and location  
 - Browse listings from other users  
-- Location-based discovery (no map required)  
-- Clean, mobile-first interface  
 - Real-time backend with instant updates using Convex  
 
 ---
@@ -27,10 +25,10 @@ Welcome to **Kindly** — a laid-back, location-aware marketplace where you can 
 
 ## 💡 How It Works
 
-1. Click "Sell Something" to create a listing  
+1. Go to the sell page to create a listing  
 2. Add item details, a photo, and your location (text or autofill)  
 3. Listings appear instantly for everyone to browse  
-4. Buyers can explore items near them and message sellers (coming soon)  
+4. Buyers can explore items near them and message sellers if interested 
 
 ---
 
