@@ -17,15 +17,18 @@ export function SignOut({ className }: SignOutProps) {
 
   return (
     <LoadingButton
-      variant="destructive"
       size="sm"
       onClick={async () => {
         setIsLoading(true);
         await signOut();
-        router.push("/auth/sign-in"); // 🚀 Redirect after sign out
+        router.push("/auth/sign-in");
       }}
       isLoading={isLoading}
-      className={cn("w-full text-left px-2 py-1.5", className)}
+      className={cn(
+        "w-full text-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+        "bg-[#5c3b27] text-white hover:bg-[#4b2f20]",
+        className
+      )}
     >
       Sign out
     </LoadingButton>

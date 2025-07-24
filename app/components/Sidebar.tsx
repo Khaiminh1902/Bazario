@@ -42,8 +42,6 @@ export default function Navbar() {
           );
         })}
       </div>
-
-      {/* Bottom user details if authenticated */}
       {!isLoading && isAuthenticated && <UserDetails />}
     </aside>
   );

@@ -17,30 +17,31 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="grow flex flex-col items-center justify-center gap-4 p-8 text-center">
-      <Card className="w-full max-w-xs shadow-2xl">
-        <CardHeader className="text-center">
-          <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>Login with you Github account</CardDescription>
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <Card className="w-full max-w-sm rounded-2xl shadow-xl border border-gray-200 bg-white">
+        <CardHeader className="text-center space-y-2">
+          <CardTitle className="text-2xl font-bold text-gray-800">
+            Welcome back
+          </CardTitle>
+          <CardDescription className="text-gray-500">
+            Login with your GitHub account
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-6">
-            <div className="flex flex-col gap-4">
-              <LoadingButton
-                onClick={() => {
-                  setIsLoading(true);
-                  // yes, I know this returns a Promise, and I intentionally don't want to handle it
-                  void signIn("github", {
-                    redirectTo: "/",
-                  });
-                }}
-                className="w-full font-semibold"
-                isLoading={isLoading}
-              >
-                <Github className="mr-2" />
-                Login with Github
-              </LoadingButton>
-            </div>
+          <div className="mt-4 space-y-4">
+            <LoadingButton
+              onClick={() => {
+                setIsLoading(true);
+                void signIn("github", {
+                  redirectTo: "/",
+                });
+              }}
+              className="cursor-pointer w-full flex items-center justify-center gap-2 bg-black text-white hover:bg-gray-800 transition-all duration-200 rounded-lg py-2 font-medium"
+              isLoading={isLoading}
+            >
+              <Github className="w-5 h-5" />
+              Login with GitHub
+            </LoadingButton>
           </div>
         </CardContent>
       </Card>
