@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 Kindly  
+**The chillest marketplace on the internet**
 
-## Getting Started
+Welcome to **Kindly** — a laid-back, location-aware marketplace where you can **buy cool stuff** and **sell your stuff** (like that PS5 your mom keeps telling you to throw away 🤣). Whether you're decluttering or browsing nearby gems, Kindly keeps it simple.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎯 What You Can Do
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Post items for sale with a name, description, image, and location  
+- Browse listings from other users  
+- Location-based discovery (no map required)  
+- Clean, mobile-first interface  
+- Real-time backend with instant updates using Convex  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+| Layer       | Technology                   |
+|-------------|------------------------------|
+| Frontend    | React, Next.js, Tailwind CSS |
+| Backend     | Convex (serverless database + functions) |
+| Language    | TypeScript                   |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 💡 How It Works
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Click "Sell Something" to create a listing  
+2. Add item details, a photo, and your location (text or autofill)  
+3. Listings appear instantly for everyone to browse  
+4. Buyers can explore items near them and message sellers (coming soon)  
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is created for Summer of Making 2025 - Hackclub
