@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import React, { useState, memo } from "react";
-import { Trash2, X } from "lucide-react";
+import { Trash2, X, Heart } from "lucide-react";
+import { useMutation, useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
+import { Id } from "../../convex/_generated/dataModel";
 
 interface BuyCardProps {
+  listingId: Id<"listings">;
   name: string;
   price: string;
   location: string;
@@ -16,6 +20,7 @@ interface BuyCardProps {
 }
 
 const BuyCard = memo(function BuyCard({
+  listingId,
   name,
   price,
   location,
@@ -27,6 +32,24 @@ const BuyCard = memo(function BuyCard({
 }: BuyCardProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  
+  // Wishlist functionality
+  const isInWishlist = useQuery(api.wishlist.isInWishlist, { listingId });
+  const addToWishlist = useMutation(api.wishlist.addToWishlist);
+  const removeFromWishlist = useMutation(api.wishlist.removeFromWishlist);
+  
+  const handleWishlistToggle = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      if (isInWishlist) {
+        await removeFromWishlist({ listingId });
+      } else {
+        await addToWishlist({ listingId });
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist:", error);
+    }
+  };
 
   return (
     <>
@@ -50,18 +73,37 @@ const BuyCard = memo(function BuyCard({
         </p>
         <p className="text-md font-semibold text-[#5c3b27] mt-2">${price}</p>
 
-        {isOwner && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowConfirmModal(true);
-            }}
-            className="absolute bottom-3 right-3 text-red-600 hover:text-red-800 cursor-pointer"
-            title="Delete Listing"
-          >
-            <Trash2 className="w-5 h-5" />
-          </button>
-        )}
+        {/* Action buttons */}
+        <div className="absolute bottom-3 right-3 flex items-center gap-2">
+          {/* Wishlist button for non-owners */}
+          {!isOwner && (
+            <button
+              onClick={handleWishlistToggle}
+              className={`p-1.5 rounded-full transition-all duration-200 ${
+                isInWishlist 
+                  ? "bg-[#5c3b27] text-white shadow-md hover:bg-[#3f2a1b]" 
+                  : "bg-white/80 text-[#5c3b27] hover:bg-[#5c3b27] hover:text-white shadow-md backdrop-blur-sm"
+              }`}
+              title={isInWishlist ? "Remove from Wishlist" : "Add to Wishlist"}
+            >
+              <Heart className={`w-4 h-4 ${isInWishlist ? "fill-current" : ""}`} />
+            </button>
+          )}
+          
+          {/* Delete button for owners */}
+          {isOwner && (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowConfirmModal(true);
+              }}
+              className="p-1.5 rounded-full bg-white/80 text-red-600 hover:bg-red-600 hover:text-white transition-all duration-200 shadow-md backdrop-blur-sm"
+              title="Delete Listing"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          )}
+        </div>
       </div>
 
       {showConfirmModal && (

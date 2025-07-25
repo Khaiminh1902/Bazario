@@ -18,6 +18,7 @@ import type * as http from "../http.js";
 import type * as listings from "../listings.js";
 import type * as messages from "../messages.js";
 import type * as users from "../users.js";
+import type * as wishlist from "../wishlist.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -33,6 +34,7 @@ declare const fullApi: ApiFromModules<{
   listings: typeof listings;
   messages: typeof messages;
   users: typeof users;
+  wishlist: typeof wishlist;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

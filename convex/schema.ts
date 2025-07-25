@@ -25,4 +25,12 @@ export default defineSchema({
     timestamp: v.number(),
     readBy: v.array(v.string()),
   }).index("by_conversation", ["conversationId"]),
+  wishlist: defineTable({
+    userId: v.string(),
+    listingId: v.id("listings"),
+    addedAt: v.number(),
+  })
+    .index("by_user", ["userId"])
+    .index("by_listing", ["listingId"])
+    .index("by_user_listing", ["userId", "listingId"]),
 });

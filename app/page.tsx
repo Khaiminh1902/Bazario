@@ -172,6 +172,7 @@ export default function BuyPage() {
             {filteredItems.map((item) => (
               <BuyCard
                 key={item._id}
+                listingId={item._id}
                 name={item.name}
                 price={`${item.price}`}
                 location={item.location}
