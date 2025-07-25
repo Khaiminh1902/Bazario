@@ -80,6 +80,7 @@ export const sendMessage = mutation({
       senderId,
       content,
       timestamp,
+      readBy: [senderId],
     });
 
     await ctx.db.patch(conversationId, {
@@ -155,6 +156,85 @@ export const getConversationMessages = query({
       .collect();
 
     return messages;
+  },
+});
+
+export const markMessagesAsRead = mutation({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("Not authenticated");
+    }
+
+    const { conversationId } = args;
+    const currentUserId = identity.subject;
+
+    const conversation = await ctx.db.get(conversationId);
+    if (!conversation || !conversation.participants.includes(currentUserId)) {
+      throw new Error("Not authorized to access this conversation");
+    }
+
+    const messages = await ctx.db
+      .query("messages")
+      .withIndex("by_conversation", (q) =>
+        q.eq("conversationId", conversationId)
+      )
+      .collect();
+
+    for (const message of messages) {
+      const readBy = message.readBy || [];
+      if (!readBy.includes(currentUserId)) {
+        await ctx.db.patch(message._id, {
+          readBy: [...readBy, currentUserId],
+        });
+      }
+    }
+  },
+});
+
+export const getUnreadMessageCount = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return 0;
+    }
+
+    const currentUserId = identity.subject;
+
+    const allMessages = await ctx.db.query("messages").collect();
+    const unreadCount = allMessages.filter((message) => {
+      const readBy = message.readBy || [];
+      return message.senderId !== currentUserId && !readBy.includes(currentUserId);
+    }).length;
+
+    return unreadCount;
+  },
+});
+
+export const getUnreadCountsByConversation = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      return {};
+    }
+
+    const currentUserId = identity.subject;
+
+    const allMessages = await ctx.db.query("messages").collect();
+    const unreadCounts: Record<string, number> = {};
+
+    for (const message of allMessages) {
+      const readBy = message.readBy || [];
+      if (message.senderId !== currentUserId && !readBy.includes(currentUserId)) {
+        const conversationId = message.conversationId;
+        unreadCounts[conversationId] = (unreadCounts[conversationId] || 0) + 1;
+      }
+    }
+
+    return unreadCounts;
   },
 });
 

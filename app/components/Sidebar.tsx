@@ -2,7 +2,8 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { ShoppingCart, DollarSign, MessageCircle } from "lucide-react";
-import { useConvexAuth } from "convex/react";
+import { useConvexAuth, useQuery } from "convex/react";
+import { api } from "../../convex/_generated/api";
 import UserDetails from "./user-details";
 
 const navItems = [
@@ -15,6 +16,7 @@ export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
   const { isAuthenticated, isLoading } = useConvexAuth();
+  const unreadCount = useQuery(api.messages.getUnreadMessageCount);
 
   return (
     <aside className="fixed inset-y-0 left-0 w-20 bg-[var(--kindly-medium)] p-4 flex flex-col justify-between items-center py-6 shadow-md">
@@ -30,7 +32,7 @@ export default function Navbar() {
               key={item.href}
               aria-label={item.label}
               onClick={() => router.push(item.href)}
-              className={`cursor-pointer flex items-center justify-center w-12 h-12 rounded-xl transition
+              className={`cursor-pointer relative flex items-center justify-center w-12 h-12 rounded-xl transition
                 ${
                   isActive
                     ? "bg-[var(--kindly-dark)] text-white"
@@ -38,6 +40,11 @@ export default function Navbar() {
                 }`}
             >
               {item.icon}
+              {item.href === "/message" && unreadCount && unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
+                  !
+                </span>
+              )}
             </button>
           );
         })}

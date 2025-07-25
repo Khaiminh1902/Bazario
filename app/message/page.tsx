@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { Send, ArrowLeft } from "lucide-react";
+import { Send, ArrowLeft, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useConvexAuth } from "convex/react";
 
@@ -32,7 +32,9 @@ export default function MessagePage() {
     api.messages.getConversation,
     conversationId ? { conversationId } : "skip"
   );
+  const unreadCountsByConversation = useQuery(api.messages.getUnreadCountsByConversation);
   const sendMessage = useMutation(api.messages.sendMessage);
+  const markMessagesAsRead = useMutation(api.messages.markMessagesAsRead);
   const currentUserIdentity = useQuery(api.users.getCurrentUserIdentity);
 
   useEffect(() => {
@@ -44,6 +46,13 @@ export default function MessagePage() {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
   }, [conversationId]);
+
+  // Mark messages as read when conversation is viewed
+  useEffect(() => {
+    if (conversationId && currentUserIdentity && messages) {
+      markMessagesAsRead({ conversationId });
+    }
+  }, [conversationId, currentUserIdentity, messages, markMessagesAsRead]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -138,7 +147,7 @@ export default function MessagePage() {
                   conversationId === conv._id
                     ? "bg-[#f5e3d2] border-l-4 border-l-[#5c3b27]"
                     : ""
-                }`}
+                } ${unreadCountsByConversation[conv._id] > 0 ? "bg-yellow-100" : ""}`}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
@@ -208,25 +217,32 @@ export default function MessagePage() {
                       key={message._id}
                       className={`flex ${isCurrentUser ? "justify-end" : "justify-start"}`}
                     >
-                      <div
-                        className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl shadow-sm ${
-                          isCurrentUser
-                            ? "bg-[#5c3b27] text-white"
-                            : "bg-white text-[#5c3b27] border-2 border-white"
-                        }`}
-                      >
-                        <p className="text-sm leading-relaxed">
-                          {message.content}
-                        </p>
-                        <p
-                          className={`text-xs mt-2 ${
+                      <div className="relative">
+                        <div
+                          className={`max-w-xs lg:max-w-md px-4 py-3 rounded-xl shadow-sm ${
                             isCurrentUser
-                              ? "text-white opacity-75"
-                              : "text-[#5c3b27] opacity-60"
-                          }`}
+                              ? "bg-[#5c3b27] text-white"
+                              : "bg-white text-[#5c3b27] border-2 border-white"
+                          } ${!message.readBy.includes(currentUserIdentity?.subject || "") ? "ring-2 ring-yellow-300 ring-opacity-50" : ""}`}
                         >
-                          {formatTime(message.timestamp)}
-                        </p>
+                          <p className="text-sm leading-relaxed">
+                            {message.content}
+                          </p>
+                          <p
+                            className={`text-xs mt-2 ${
+                              isCurrentUser
+                                ? "text-white opacity-75"
+                                : "text-[#5c3b27] opacity-60"
+                            }`}
+                          >
+                            {formatTime(message.timestamp)}
+                          </p>
+                        </div>
+                        {!message.readBy.includes(currentUserIdentity?.subject || "") && (
+                          <div className="absolute -top-1 -right-1 bg-red-500 rounded-full p-1">
+                            <AlertCircle className="w-3 h-3 text-white" />
+                          </div>
+                        )}
                       </div>
                     </div>
                   );

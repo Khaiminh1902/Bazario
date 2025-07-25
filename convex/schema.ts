@@ -23,5 +23,6 @@ export default defineSchema({
     senderId: v.string(),
     content: v.string(),
     timestamp: v.number(),
+    readBy: v.array(v.string()),
   }).index("by_conversation", ["conversationId"]),
 });
