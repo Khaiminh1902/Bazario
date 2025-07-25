@@ -1,14 +1,10 @@
 // app/message/[userId]/page.tsx
 
-import React from "react";
-
 interface MessagePageProps {
-  params: {
-    userId: string;
-  };
+  params: { userId: string };
 }
 
-export default async function MessagePage({ params }: MessagePageProps) {
+export default function MessagePage({ params }: MessagePageProps) {
   const { userId } = params;
 
   return (
