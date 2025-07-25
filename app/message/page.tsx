@@ -147,7 +147,7 @@ export default function MessagePage() {
                   conversationId === conv._id
                     ? "bg-[#f5e3d2] border-l-4 border-l-[#5c3b27]"
                     : ""
-                } ${unreadCountsByConversation[conv._id] > 0 ? "bg-yellow-100" : ""}`}
+                } ${unreadCountsByConversation?.[conv._id] > 0 ? "bg-yellow-100" : ""}`}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
