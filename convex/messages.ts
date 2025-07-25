@@ -204,10 +204,23 @@ export const getUnreadMessageCount = query({
 
     const currentUserId = identity.subject;
 
+    // First, get all conversations the user is part of
+    const allConversations = await ctx.db.query("conversations").collect();
+    const userConversations = allConversations.filter((conv) =>
+      conv.participants.includes(currentUserId)
+    );
+    
+    const userConversationIds = userConversations.map(conv => conv._id.toString());
+    
+    // Only count unread messages from conversations the user is part of
     const allMessages = await ctx.db.query("messages").collect();
     const unreadCount = allMessages.filter((message) => {
       const readBy = message.readBy || [];
-      return message.senderId !== currentUserId && !readBy.includes(currentUserId);
+      return (
+        userConversationIds.includes(message.conversationId.toString()) &&
+        message.senderId !== currentUserId && 
+        !readBy.includes(currentUserId)
+      );
     }).length;
 
     return unreadCount;
@@ -223,13 +236,25 @@ export const getUnreadCountsByConversation = query({
 
     const currentUserId = identity.subject;
 
+    // First, get all conversations the user is part of
+    const allConversations = await ctx.db.query("conversations").collect();
+    const userConversations = allConversations.filter((conv) =>
+      conv.participants.includes(currentUserId)
+    );
+    
+    const userConversationIds = userConversations.map(conv => conv._id.toString());
+
     const allMessages = await ctx.db.query("messages").collect();
     const unreadCounts: Record<string, number> = {};
 
     for (const message of allMessages) {
       const readBy = message.readBy || [];
-      if (message.senderId !== currentUserId && !readBy.includes(currentUserId)) {
-        const conversationId = message.conversationId;
+      if (
+        userConversationIds.includes(message.conversationId.toString()) &&
+        message.senderId !== currentUserId && 
+        !readBy.includes(currentUserId)
+      ) {
+        const conversationId = message.conversationId.toString();
         unreadCounts[conversationId] = (unreadCounts[conversationId] || 0) + 1;
       }
     }

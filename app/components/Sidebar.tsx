@@ -17,6 +17,9 @@ export default function Navbar() {
   const router = useRouter();
   const { isAuthenticated, isLoading } = useConvexAuth();
   const unreadCount = useQuery(api.messages.getUnreadMessageCount);
+  
+  // Debug logging - remove this later
+  console.log('Sidebar unreadCount:', unreadCount);
 
   return (
     <aside className="fixed inset-y-0 left-0 w-20 bg-[var(--kindly-medium)] p-4 flex flex-col justify-between items-center py-6 shadow-md">
@@ -40,7 +43,7 @@ export default function Navbar() {
                 }`}
             >
               {item.icon}
-              {item.href === "/message" && unreadCount && unreadCount > 0 && (
+              {item.href === "/message" && typeof unreadCount === 'number' && unreadCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center font-bold">
                   !
                 </span>
