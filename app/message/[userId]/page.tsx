@@ -12,11 +12,8 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function MessagePage({
-  params,
-}: {
-  params: { userId: string };
-}) {
+// ✅ Make the component async even if unused
+export default async function MessagePage({ params }: PageProps) {
   return (
     <div className="pl-27 p-6 bg-[#f5e3d2] min-h-screen">
       <h1 className="text-2xl font-semibold mb-4 text-[#5c3b27]">
