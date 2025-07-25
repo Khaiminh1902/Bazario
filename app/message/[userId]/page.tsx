@@ -12,13 +12,15 @@ export function generateMetadata({ params }: PageProps): Metadata {
   };
 }
 
-export default function MessagePage({ params }: PageProps) {
-  const { userId } = params;
-
+export default function MessagePage({
+  params,
+}: {
+  params: { userId: string };
+}) {
   return (
     <div className="pl-27 p-6 bg-[#f5e3d2] min-h-screen">
       <h1 className="text-2xl font-semibold mb-4 text-[#5c3b27]">
-        Contacting User: {userId}
+        Contacting User: {params.userId}
       </h1>
     </div>
   );
