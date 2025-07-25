@@ -28,8 +28,6 @@ export const getListings = query({
   },
 });
 
-// listings.ts
-
 export const deleteListing = mutation({
   args: { id: v.id("listings") },
   handler: async (ctx, args) => {

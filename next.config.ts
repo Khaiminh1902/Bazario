@@ -1,10 +1,38 @@
-// next.config.js
+import type { NextConfig } from 'next';
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   images: {
-    domains: ["res.cloudinary.com", "via.placeholder.com"],
+    formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
+    ],
+  },
+  
+  experimental: {
+    optimizePackageImports: ['lucide-react', '@convex-dev/auth'],
+  },
+
+  turbopack: {
+    resolveExtensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
+  
+  compress: true,
+  reactStrictMode: false,
+  
+  webpack: (config, { dev, isServer }) => {
+    if (!dev && !isServer) {
+      config.optimization.usedExports = true;
+      config.optimization.sideEffects = false;
+    }
+    return config;
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;

@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import { Trash2, X } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface BuyCardProps {
   name: string;
@@ -16,7 +15,7 @@ interface BuyCardProps {
   onContact?: () => void;
 }
 
-export default function BuyCard({
+const BuyCard = memo(function BuyCard({
   name,
   price,
   location,
@@ -24,6 +23,7 @@ export default function BuyCard({
   image,
   onDelete,
   isOwner = false,
+  onContact,
 }: BuyCardProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -31,10 +31,10 @@ export default function BuyCard({
   return (
     <>
       <div
-        className="bg-white w-72 rounded-xl shadow-md p-4 hover:shadow-lg transition-all relative cursor-pointer"
+        className="bg-white w-full rounded-xl shadow-md p-4 hover:shadow-lg transition-all relative cursor-pointer"
         onClick={() => setShowDetailsModal(true)}
       >
-        <div className="relative w-full h-50 mb-4">
+        <div className="relative w-full h-48 mb-4">
           <Image
             src={image || "https://via.placeholder.com/150"}
             alt={name}
@@ -64,7 +64,6 @@ export default function BuyCard({
         )}
       </div>
 
-      {/* Delete Confirmation Modal */}
       {showConfirmModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/30">
           <div className="bg-white rounded-lg p-6 shadow-lg w-80 text-center">
@@ -126,6 +125,7 @@ export default function BuyCard({
               <button
                 onClick={() => {
                   setShowDetailsModal(false);
+                  onContact?.();
                 }}
                 className="cursor-pointer w-full py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#3f2a1b] transition"
               >
@@ -137,4 +137,6 @@ export default function BuyCard({
       )}
     </>
   );
-}
+});
+
+export default BuyCard;

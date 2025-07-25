@@ -10,3 +10,10 @@ export const currentUser = query({
     return await ctx.db.get(userId);
   },
 });
+
+export const getCurrentUserIdentity = query({
+  handler: async (ctx) => {
+    const identity = await ctx.auth.getUserIdentity();
+    return identity;
+  },
+});
