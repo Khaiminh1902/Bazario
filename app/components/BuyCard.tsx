@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { Trash2, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface BuyCardProps {
   name: string;
@@ -12,7 +13,8 @@ interface BuyCardProps {
   image?: string;
   onDelete?: () => void;
   isOwner?: boolean;
-  onContact?: () => void; // optional handler for contact
+  onContact?: () => void;
+  userId: string;
 }
 
 export default function BuyCard({
@@ -23,10 +25,12 @@ export default function BuyCard({
   image,
   onDelete,
   isOwner = false,
+  userId,
   onContact,
 }: BuyCardProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -126,7 +130,7 @@ export default function BuyCard({
               <button
                 onClick={() => {
                   setShowDetailsModal(false);
-                  onContact?.();
+                  router.push(`/message/${userId}`);
                 }}
                 className="cursor-pointer w-full py-2 bg-[#5c3b27] text-white rounded-md hover:bg-[#3f2a1b] transition"
               >
