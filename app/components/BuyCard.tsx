@@ -26,7 +26,6 @@ export default function BuyCard({
   onDelete,
   isOwner = false,
   userId,
-  onContact,
 }: BuyCardProps) {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [showDetailsModal, setShowDetailsModal] = useState(false);

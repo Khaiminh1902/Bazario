@@ -1,10 +1,20 @@
 // app/message/[userId]/page.tsx
 
-interface MessagePageProps {
-  params: { userId: string };
+import { type Metadata } from "next";
+
+interface PageProps {
+  params: {
+    userId: string;
+  };
 }
 
-export default function MessagePage({ params }: MessagePageProps) {
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: `Contact ${params.userId}`,
+  };
+}
+
+export default function MessagePage({ params }: PageProps) {
   const { userId } = params;
 
   return (
