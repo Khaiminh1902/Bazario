@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useQuery, useMutation } from "convex/react";
@@ -68,16 +69,17 @@ export default function WishlistPage() {
                 {wishlistItems === undefined ? (
                   "Loading..."
                 ) : (
-                  <>Items you've saved for later ({wishlistItems.length})</>
+                  <>
+                    Items you&apos;ve saved for later ({wishlistItems.length})
+                  </>
                 )}
               </p>
             </div>
           </div>
         </div>
       </div>
-      
-      <div className="max-w-7xl mx-auto px-6 py-6">
 
+      <div className="max-w-7xl mx-auto px-6 py-6">
         {wishlistItems === undefined ? (
           <div className="text-center py-20">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#5c3b27] mx-auto"></div>
