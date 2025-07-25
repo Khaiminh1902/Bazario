@@ -1,14 +1,19 @@
-// app/message/[userId]/page.tsx
-import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 
-type Props = {
-  params: { userId: string };
-};
+interface PageProps {
+  params: {
+    userId: string;
+  };
+}
 
-export default function MessagePage({ params }: Props) {
+export function generateMetadata({ params }: PageProps): Metadata {
+  return {
+    title: `Message ${params.userId}`,
+  };
+}
+
+export default function MessagePage({ params }: PageProps) {
   const { userId } = params;
-
-  if (!userId) return notFound();
 
   return (
     <div className="pl-27 p-6 bg-[#f5e3d2] min-h-screen">
