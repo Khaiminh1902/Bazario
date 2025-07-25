@@ -8,12 +8,10 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { Send, ArrowLeft, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useConvexAuth } from "convex/react";
 
 export default function MessagePage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { isAuthenticated } = useConvexAuth();
   const conversationId = searchParams.get(
     "convId"
   ) as Id<"conversations"> | null;
@@ -147,7 +145,7 @@ export default function MessagePage() {
                   conversationId === conv._id
                     ? "bg-[#f5e3d2] border-l-4 border-l-[#5c3b27]"
                     : ""
-                } ${unreadCountsByConversation?.[conv._id] > 0 ? "bg-yellow-100" : ""}`}
+                } ${unreadCountsByConversation && unreadCountsByConversation[conv._id] > 0 ? "bg-yellow-100" : ""}`}
               >
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
