@@ -1,7 +1,7 @@
-# 🛒 Kindly  
+# 🛒 Bazario
 **The chillest marketplace on the internet**
 
-Welcome to **Kindly** — a laid-back, location-aware marketplace where you can **buy cool stuff** and **sell your stuff** (like that PS5 your mom keeps telling you to throw away 🤣). Whether you're decluttering or browsing nearby gems, Kindly keeps it simple.
+Welcome to **Bazario** — a laid-back, location-aware marketplace where you can **buy cool stuff** and **sell your stuff** (like that PS5 your mom keeps telling you to throw away 🤣). Whether you're decluttering or browsing nearby gems, Kindly keeps it simple.
 
 ---
 
